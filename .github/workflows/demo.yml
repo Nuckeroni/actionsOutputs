@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: download this thing
-        uses: action/download-artifact@v3
+        uses: actions/download-artifact@v3
         with:
           name: dist-files
       - name: output content
