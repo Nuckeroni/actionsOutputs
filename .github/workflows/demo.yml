@@ -18,6 +18,8 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
+    outputs:
+      uptome: ${{ steps.id1.outputs.outputVariable }}
     steps:
       - name: Get code
         uses: actions/checkout@v3
@@ -25,6 +27,9 @@ jobs:
         run: npm ci
       - name: Build website
         run: npm run build
+      - name: publish javascript filename
+        id: id1
+        run: find dist/assets/*.js -type f -execdir echo 'outputVariable={}' >> $GITHUB_OUTPUT ';'
       - name: upload artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -40,5 +45,7 @@ jobs:
           name: dist-files
       - name: output content
         run: ls
+      - name: output filename
+        run: echo "${{needs.build.outputs.uptome}}"
       - name: Deploy
         run: echo "Deploying..."
